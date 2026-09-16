@@ -58,6 +58,7 @@ class Solution:
 ## Brief Explanation
 
 It can be shown that if two rectangles overlap, at least one corner from one rectangle will be inside the other, or the middle point.
+Having that in mind, the next step is to measure the area of the rectangles formed by the point inside and two corners of the other rectangle such that they don't have the same x or y coordinate, if both areas are non zero, we can say the rectangles overlap.
 
 ## Link
 
