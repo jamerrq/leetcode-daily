@@ -37,28 +37,20 @@ class Solution:
         for i in range(5):
             cx = cxs[i]
             cy = cys[i]
-            if d1_x <= cx <= d3_x and d1_y <= cy <= d3_y:
-                A = (cx - d1_x) * (cy - d1_y)
-                B = (d3_x - cx) * (d3_y - cy)
-                if A * B:
-                    return True
+            if d1_x < cx < d3_x and d1_y < cy < d3_y:
+                return True
             #
             dx = dxs[i]
             dy = dys[i]
-            if c1_x <= dx <= c3_x and c1_y <= dy <= c3_y:
-                A = (dx - c1_x) * (dy - c1_y)
-                B = (c3_x - dx) * (c3_y - dy)
-                if A * B:
-                    return True
+            if c1_x < dx < c3_x and c1_y < dy < c3_y:
+                return True
 
         return False
-
 ```
 
 ## Brief Explanation
 
 It can be shown that if two rectangles overlap, at least one corner from one rectangle will be inside the other, or the middle point.
-Having that in mind, the next step is to measure the area of the rectangles formed by the point inside and two corners of the other rectangle such that they don't have the same x or y coordinate, if both areas are non zero, we can say the rectangles overlap.
 
 ## Link
 
