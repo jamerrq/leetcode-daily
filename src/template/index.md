@@ -1,5 +1,7 @@
 # []()
 
+**Level**: <span style="color:cyan">Easy</span>
+
 ## My Solution
 
 [index.py](./index.py)
@@ -16,7 +18,7 @@
 
 ## Memory
 
-19.30 MB | Beats 88.16% ![clapping_hands](../../lib/clapping_hands.svg)
+0 MB | Beats 100% ![clapping_hands](../../lib/clapping_hands.svg)
 
 
 ## Link
