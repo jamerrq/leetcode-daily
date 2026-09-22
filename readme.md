@@ -9,3 +9,4 @@ yeah, in big 2026
 - [1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](./src/1477/index.md)
 - [1401. Circle and Rectangle Overlapping](./src/1401/index.md)
 - [3498. Reverse Degree of a String](./src/3498/index.md)
+- [3524. Find X Value of Array I](./src/3524/index.md)
