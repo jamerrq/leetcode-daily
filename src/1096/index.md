@@ -157,9 +157,9 @@ Their (recursive) definitions are:
 
 The definition of these operations is explained more clearly on the [problem's page](https://leetcode.com/problems/brace-expansion-ii/description).
 
-Regarding the code, it is helpful to notice that lists contain zero-depth commas, where the depth of a character is the number of open braces to its left minus the number of closed ones. At the same time, braces that opens and closes at zero depth help to split the expression into factors in case it is an association.
+Regarding the code, it is helpful to notice that lists contain zero-depth commas, where the depth of a character is the number of open braces to its left minus the number of closed ones. Likewise, top-level brace groups (those that open and close at zero depth) help split the expression into factors when it is a combination.
 
-The `breakdown` function iterates through the expression once to determine whether it is a list, and then splits it into sub-terms accordingly.
+The `breakdown` function iterates through the expression once to determine whether it is a list, and then splits it into terms or factors accordingly.
 
 ## Runtime
 
