@@ -14,3 +14,4 @@ yeah, in big 2026
 | 3524 | Find X Value of Array I | Medium | [notes](./src/3524/index.md) · [solution](./src/3524/index.py) |
 | 1658 | Minimum Operations to Reduce X to Zero | Medium | [notes](./src/1658/index.md) · [solution](./src/1658/index.py) |
 | 3550 | Smallest Index With Digit Sum Equal to Index | Easy | [notes](./src/3550/index.md) · [solution](./src/3550/index.py) |
+| 1096 | 1096. Brace Expansion II | Hard | [notes](./src/1096/index.md) · [solution](./src/1096/index.py) |
