@@ -1,4 +1,4 @@
-# [1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/description/?envType=daily-question&envId=2026-09-17)
+# [1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/description)
 
 **Level**: <span style="color:yellow">Medium</span>
 
@@ -14,7 +14,7 @@ Return the minimum sum of the lengths of the two required sub-arrays, or return 
 
 ```python
 class Solution:
-    def minSumOfLengths(self, arr: List[int], target: int) -> int:
+    def minSumOfLengths(self, arr: list[int], target: int) -> int:
         n = len(arr)
         cum_sum = [0] * (n + 1)
         r_cum_sum = [0] * (n + 1)
@@ -73,16 +73,16 @@ class Solution:
 ## Explanation
 This problem almost fried my lil brain.
 
-As the leetcode hints suggests, one way to solve this problem is by creating
-two arrays `prefix` and `suffix` such that they store the information about the current position and the possibility to create a solution at and index `i`.
+As the LeetCode hints suggest, one way to solve this problem is by creating
+two arrays `prefix` and `suffix` that store information about the current position and the possibility of creating a solution at an index `i`.
 So, let's define:
 
-- `prefix[i]` would be the shortest sub-array we can choose before `i` (inclusive) that sums `target`
-- `suffix[i]` would be the shortest sub array we can choose from `i` to end that sums `target`
+- `prefix[i]` is the length of the shortest sub-array we can choose up to `i` (inclusive) that sums to `target`.
+- `suffix[i]` is the length of the shortest sub-array we can choose from `i` to the end that sums to `target`.
 
-Notice how some of this positions are not defined since there is no possible solution, in that case, the value is defined as infinite for practical purposes.
+Notice how some of these positions are not defined, since there is no possible solution. In that case, the value is defined as infinite for practical purposes.
 
-The answer will be iterating over the valid positions and choose the minimum one over `prefix[i] + suffix[i + 1]`, or `-1` if no valid solutions.
+To get the answer, we iterate over the valid positions and choose the minimum of `prefix[i] + suffix[i + 1]`, or `-1` if there are no valid solutions.
 
 ## Runtime
 
