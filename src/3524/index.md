@@ -31,6 +31,66 @@ Define `dp[i][r]` as the count of subarrays ending at index `i` whose product mo
 ### Hint 3
 Compute `dp[i][r]` for each index `i` in `nums` and sum over all indices to get the final counts for each remainder.
 
+## Examples
+
+### Example 1:
+
+`Input: nums = [1,2,3,4,5], k = 3`
+
+`Output: [9,2,4]`
+
+#### Explanation:
+
+- For `x = 0`, the possible operations include all possible ways to remove non-overlapping prefix/suffix that do not remove `nums[2] == 3`.
+- For `x = 1`, the possible operations are:
+
+  - Remove the empty prefix and the suffix `[2, 3, 4, 5]`. `nums` becomes `[1]`.
+  - Remove the prefix `[1, 2, 3]` and the suffix `[5]`. `nums` becomes `[4]`.
+
+- For `x = 2`, the possible operations are:
+
+  - Remove the empty prefix and the suffix `[3, 4, 5]`. `nums` becomes `[1, 2]`.
+  - Remove the prefix `[1]` and the suffix `[3, 4, 5]`. `nums` becomes `[2]`.
+  - Remove the prefix `[1, 2, 3]` and the empty suffix. `nums` becomes `[4, 5]`.
+  - Remove the prefix `[1, 2, 3, 4]` and the empty suffix. `nums` becomes `[5]`.
+
+### Example 2:
+
+`Input: nums = [1,2,4,8,16,32], k = 4`
+
+`Output: [18,1,2,0]`
+
+#### Explanation:
+
+- For `x = 0`, the only operations that do not result in `x = 0` are:
+
+  - Remove the empty prefix and the suffix `[4, 8, 16, 32]`. `nums` becomes `[1, 2]`.
+  - Remove the empty prefix and the suffix `[2, 4, 8, 16, 32]`. `nums` becomes `[1]`.
+  - Remove the prefix `[1]` and the suffix `[4, 8, 16, 32]`. `nums` becomes `[2]`.
+
+- For `x = 1`, the only possible operation is:
+
+  - Remove the empty prefix and the suffix `[2, 4, 8, 16, 32]`. `nums` becomes `[1]`.
+
+- For `x = 2`, the possible operations are:
+
+  - Remove the empty prefix and the suffix `[4, 8, 16, 32]`. `nums` becomes `[1, 2]`.
+  - Remove the prefix `[1]` and the suffix `[4, 8, 16, 32]`. `nums` becomes `[2]`.
+
+- For `x = 3`, there is no possible way to perform the operation.
+
+### Example 3:
+
+`Input: nums = [1,1,2,1,1], k = 2`
+
+`Output: [9,6]`
+
+## Constraints
+
+- `1 <= nums[i] <= 10^9`
+- `1 <= nums.length <= 10^5`
+- `1 <= k <= 5`
+
 ## My Solution
 
 [index.py](./index.py)

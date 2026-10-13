@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>3483 — Unique 3-Digit Even Numbers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /*
+   * Theme: light-only for now, on purpose. The dark variable set below is
+   * kept (but unused) so a future manual light/dark toggle can just add
+   * `theme-dark` to <html> instead of re-deriving a palette.
+   */
+  :root {
+    --bg: #f5f4f1;
+    --panel: #ffffff;
+    --border: #ddd9d2;
+    --text: #1a1a1a;
+    --text-dim: #6b6660;
+    --accent-current: #0f766e;
+    --accent-success: #15803d;
+    --accent-success-bg: #dcfce7;
+    --accent-warn: #b45309;
+    --accent-warn-bg: #fef3c7;
+    --mono: "Fira Code", ui-monospace, monospace;
+    --sans: "Fira Sans", system-ui, sans-serif;
+  }
+
+  .theme-dark {
+    --bg: #14161a;
+    --panel: #1c1f24;
+    --border: #2c2f36;
+    --text: #e8e6e1;
+    --text-dim: #9a978f;
+    --accent-current: #2dd4bf;
+    --accent-success: #4ade80;
+    --accent-success-bg: #14532d;
+    --accent-warn: #fbbf24;
+    --accent-warn-bg: #451a03;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: clamp(20px, 4vw, 56px);
+  }
+
+  main {
+    width: 100%;
+    max-width: 1180px;
+  }
+
+  header {
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 18px;
+  }
+
+  header .eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--accent-current);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 700;
+    margin: 6px 0 8px;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 60ch;
+    line-height: 1.5;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .canvas-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 18px 22px;
+  }
+
+  #sketch-container {
+    width: 100%;
+    line-height: 0;
+  }
+
+  #sketch-container canvas {
+    display: block;
+    width: 100% !important;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .field-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .digits-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  #digits-input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--mono);
+    font-size: 14px;
+    padding: 8px 10px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  #digits-input:focus {
+    outline: 2px solid var(--accent-current);
+    outline-offset: 1px;
+  }
+
+  button {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 4px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: border-color 120ms ease-out, background-color 120ms ease-out, transform 80ms ease-out;
+  }
+
+  button:hover:not(:disabled) {
+    border-color: var(--accent-current);
+  }
+
+  button:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  #apply-digits {
+    flex-shrink: 0;
+  }
+
+  .error-text {
+    color: var(--accent-warn);
+    font-size: 12px;
+    font-family: var(--mono);
+    min-height: 16px;
+    margin-top: 6px;
+  }
+
+  .presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .presets button {
+    font-family: var(--mono);
+    font-weight: 500;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  /* --- Transport controls: back / step are quiet icon+label buttons, play
+     is the one circular primary action so it doesn't read as "just another
+     rectangle". --- */
+  .transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .transport-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+  }
+
+  .transport-btn svg {
+    display: block;
+    color: var(--text-dim);
+  }
+
+  .transport-btn:hover:not(:disabled) svg {
+    color: var(--accent-current);
+  }
+
+  .transport-play {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--accent-current);
+    border-color: var(--accent-current);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: auto;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .transport-play:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+
+  .transport-play svg {
+    display: block;
+  }
+
+  .transport-play .icon-pause {
+    display: none;
+  }
+
+  .transport-play.is-playing .icon-play {
+    display: none;
+  }
+
+  .transport-play.is-playing .icon-pause {
+    display: block;
+  }
+
+  .transport-hints {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .transport-hints span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .speed-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--border);
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 2px solid var(--accent-current);
+    cursor: pointer;
+    transition: transform 100ms ease-out;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 2px solid var(--accent-current);
+    cursor: pointer;
+  }
+
+  input[type="range"]:disabled::-webkit-slider-thumb {
+    border-color: var(--border);
+  }
+
+  #speed-value {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    width: 62px;
+    text-align: right;
+  }
+
+  #progress {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .found-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  #unique-count {
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--accent-success);
+    line-height: 1;
+  }
+
+  .found-header .field-label {
+    margin-bottom: 0;
+  }
+
+  #found-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    background: var(--bg);
+    animation: chip-in 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .chip.pulse {
+    animation: chip-pulse 420ms ease-out;
+  }
+
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes chip-pulse {
+    0% {
+      border-color: var(--accent-warn);
+      background: var(--accent-warn-bg);
+    }
+    100% {
+      border-color: var(--border);
+      background: var(--bg);
+    }
+  }
+
+  kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--text-dim);
+  }
+
+  /* --- i/j/k explorer sliders, below the sketch inside the same card --- */
+  #pointer-controls {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 160ms ease-out;
+  }
+
+  #pointer-controls.manual-active {
+    border-top-color: var(--accent-current);
+  }
+
+  .pointer-row {
+    display: grid;
+    grid-template-columns: 14px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 160ms ease-out;
+  }
+
+  .pointer-row.inactive {
+    opacity: 0.4;
+  }
+
+  .pointer-row.invalid .pointer-readout {
+    color: var(--accent-warn);
+  }
+
+  .pointer-key {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  .pointer-readout {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    text-align: right;
+    min-width: 15ch;
+  }
+
+  #manual-hint:not([hidden]) {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--accent-current);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #manual-hint button {
+    font-size: 11px;
+    padding: 4px 9px;
+  }
+
+  .pointer-hint {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">3483 &middot; brute force + set</div>
+    <h1>Unique 3-Digit Even Numbers</h1>
+    <p>
+      Watch the index sweep pick a hundreds, tens and units digit, and see why
+      a set — not a counter — is what makes the answer correct when digits repeat.
+    </p>
+  </header>
+
+  <div class="layout">
+    <div class="canvas-card">
+      <div id="sketch-container"></div>
+
+      <div id="pointer-controls">
+        <div class="pointer-row" id="pointer-row-i">
+          <label class="pointer-key" for="slider-i">i</label>
+          <input id="slider-i" type="range" min="0" max="3" value="0" step="1" />
+          <span class="pointer-readout" id="slider-i-readout">&rarr; digits[0] = 2</span>
+        </div>
+        <div class="pointer-row" id="pointer-row-j">
+          <label class="pointer-key" for="slider-j">j</label>
+          <input id="slider-j" type="range" min="0" max="3" value="1" step="1" />
+          <span class="pointer-readout" id="slider-j-readout">&rarr; digits[1] = 1</span>
+        </div>
+        <div class="pointer-row" id="pointer-row-k">
+          <label class="pointer-key" for="slider-k">k</label>
+          <input id="slider-k" type="range" min="0" max="3" value="2" step="1" />
+          <span class="pointer-readout" id="slider-k-readout">&rarr; digits[2] = 3</span>
+        </div>
+        <p class="pointer-hint">Drag i, j or k to try any combination by hand — it won't touch the trace below.</p>
+        <div id="manual-hint" hidden>
+          exploring manually &middot;
+          <button id="btn-resume-trace" type="button">resume trace</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div>
+        <span class="field-label">digits</span>
+        <div class="digits-row">
+          <input id="digits-input" type="text" value="2,1,3,0" spellcheck="false" />
+          <button id="apply-digits">Apply</button>
+        </div>
+        <div id="digits-error" class="error-text"></div>
+      </div>
+
+      <div>
+        <span class="field-label">examples</span>
+        <div class="presets">
+          <button data-preset="2,1,3,0">[2,1,3,0]</button>
+          <button data-preset="2,2,8,8,2">[2,2,8,8,2]</button>
+          <button data-preset="3,7,5">[3,7,5]</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div>
+        <span class="field-label">playback</span>
+        <button id="btn-reset" style="width: 100%; margin-bottom: 10px;">Reset</button>
+        <div class="transport" role="group" aria-label="Playback controls">
+          <button id="btn-back" class="transport-btn" type="button" aria-label="Step back" title="Step back (←)">
+            <svg viewBox="0 0 24 24" width="16" height="16"><rect x="5" y="5" width="2" height="14" fill="currentColor" /><polygon points="17,5 8,12 17,19" fill="currentColor" /></svg>
+            <span>Back</span>
+          </button>
+          <button id="btn-step" class="transport-btn" type="button" aria-label="Step forward" title="Step forward (→)">
+            <span>Step</span>
+            <svg viewBox="0 0 24 24" width="16" height="16"><polygon points="7,5 16,12 7,19" fill="currentColor" /><rect x="17" y="5" width="2" height="14" fill="currentColor" /></svg>
+          </button>
+          <button id="btn-play" class="transport-play" type="button" aria-label="Play" title="Play / pause (space)">
+            <svg class="icon-play" viewBox="0 0 24 24" width="18" height="18"><polygon points="6,4 20,12 6,20" fill="currentColor" /></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="18" height="18"><rect x="5" y="4" width="5" height="16" fill="currentColor" /><rect x="14" y="4" width="5" height="16" fill="currentColor" /></svg>
+          </button>
+        </div>
+        <div class="transport-hints">
+          <span><kbd>&larr;</kbd> back</span>
+          <span><kbd>&rarr;</kbd> step</span>
+          <span><kbd>space</kbd> play</span>
+        </div>
+        <div id="progress" style="margin-top:10px;">tick 0 / 0</div>
+      </div>
+
+      <div class="speed-row">
+        <span class="field-label" style="margin-bottom:0;">speed</span>
+        <input id="speed" type="range" min="1" max="30" value="6" />
+        <span id="speed-value">6 / s</span>
+      </div>
+
+      <hr />
+
+      <div>
+        <div class="found-header">
+          <span class="field-label">unique found</span>
+          <span id="unique-count">0</span>
+        </div>
+        <div id="found-list" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+<script src="./animation.js"></script>
+</body>
+</html>

@@ -6,6 +6,41 @@ You are given a circle represented as `(radius, xCenter, yCenter)` and an axis-a
 
 Return `true` if the circle and rectangle are overlapped, otherwise return `false`. In other words, check if there is any point `(xi, yi)` that belongs to the circle and the rectangle at the same time.
 
+## Examples
+
+### Example 1:
+
+![](https://assets.leetcode.com/uploads/2020/02/20/sample_4_1728.png)
+
+`Input: radius = 1, xCenter = 0, yCenter = 0, x1 = 1, y1 = -1, x2 = 3, y2 = 1`
+
+`Output: true`
+
+#### Explanation:
+
+Circle and rectangle share the point (1,0).
+
+### Example 2:
+
+`Input: radius = 1, xCenter = 1, yCenter = 1, x1 = 1, y1 = -3, x2 = 2, y2 = -1`
+
+`Output: false`
+
+### Example 3:
+
+![](https://assets.leetcode.com/uploads/2020/02/20/sample_2_1728.png)
+
+`Input: radius = 1, xCenter = 0, yCenter = 0, x1 = -1, y1 = 0, x2 = 0, y2 = 1`
+
+`Output: true`
+
+## Constraints
+
+- `1 <= radius <= 2000`
+- `-10^4 <= xCenter, yCenter <= 10^4`
+- `-10^4 <= x1 < x2 <= 10^4`
+- `-10^4 <= y1 < y2 <= 10^4`
+
 ## My Solution
 
 [index.py](./index.py)
