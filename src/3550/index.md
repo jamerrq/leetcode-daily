@@ -67,6 +67,29 @@ class Solution:
         return -1
 ```
 
+### C Implementation
+
+[main.c](./main.c)
+```c
+static int digitsSum(int num) {
+    int sum = 0;
+    while (num > 0) {
+        sum += num % 10;
+        num /= 10;
+    }
+    return sum;
+}
+
+int smallestIndex(int* nums, int numsSize) {
+    for (int i = 0; i < numsSize; ++i) {
+        if (digitsSum(nums[i]) == i) {
+            return i;
+        }
+    }
+    return -1;
+}
+```
+
 ## Brief Explanation
 
 This is probably the easiest problem I've ever found on the platform.
