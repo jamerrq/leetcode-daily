@@ -74,7 +74,6 @@
 | 1 | 453 | Minimum Moves to Equal Array Elements | Medium | [notes](./src/453/readme.md) · [solution](./src/453/index.py) |
 | 2 | 462 | Minimum Moves to Equal Array Elements II | Medium | [notes](./src/462/readme.md) · [solution](./src/462/index.py) |
 | 3 | 3736 | Minimum Moves to Equal Array Elements III | Easy | [notes](./src/3736/readme.md) · [solution](./src/3736/index.py) |
-| 4 | 3505 | Minimum Operations to Make Elements Within K Subarrays Equal | Hard | [notes](./src/3505/readme.md) · [solution](./src/3505/index.py) |
 | 5 | 1385 | Find the Distance Value Between Two Arrays | Easy | [notes](./src/1385/readme.md) · [solution](./src/1385/index.py) |
 | 6 | 2747 | Count Zero Request Servers | Medium | [notes](./src/2747/readme.md) · [solution](./src/2747/index.py) |
 | 7 | 1882 | Process Tasks Using Servers | Medium | [notes](./src/1882/readme.md) · [solution](./src/1882/index.py) |
@@ -83,11 +82,9 @@
 | 10 | 3693 | Climbing Stairs II | Medium | [notes](./src/3693/readme.md) · [solution](./src/3693/main.c) |
 | 11 | 3789 | Minimum Cost to Acquire Required Items | Medium | [notes](./src/3789/readme.md) · [solution](./src/3789/index.py) |
 | 12 | 3105 | Longest Strictly Increasing or Strictly Decreasing Subarray | Easy | [notes](./src/3105/readme.md) · [solution](./src/3105/main.c) |
-| 13 | 3420 | Count Non-Decreasing Subarrays After K Operations | Hard | [notes](./src/3420/readme.md) · [solution](./src/3420/index.py) |
 | 14 | 3364 | Minimum Positive Sum Subarray | Easy | [notes](./src/3364/readme.md) · [solution](./src/3364/main.c) |
 | 15 | 1524 | Number of Sub-arrays With Odd Sum | Medium | [notes](./src/1524/readme.md) · [solution](./src/1524/index.py) |
 | 16 | 2243 | Calculate Digit Sum of a String | Easy | [notes](./src/2243/readme.md) · [solution](./src/2243/index.py) |
-| 17 | 2911 | Minimum Changes to Make K Semi-palindromes | Hard | [notes](./src/2911/readme.md) · [solution](./src/2911/index.py) |
 | 18 | 2914 | Minimum Number of Changes to Make Binary String Beautiful | Medium | [notes](./src/2914/readme.md) · [solution](./src/2914/main.c) |
 | 19 | 2567 | Minimum Score by Changing Two Elements | Medium | [notes](./src/2567/readme.md) · [solution](./src/2567/index.py) |
 | 20 | 3041 | Maximize Consecutive Elements in an Array After Modification | Hard | [notes](./src/3041/readme.md) · [solution](./src/3041/main.c) |
@@ -164,10 +161,10 @@
 <!-- stats:start -->
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#ffc01e", "pie2": "#00b8a3", "pie3": "#ff375f"}}}%%
-pie showData title 119 problems solved
+pie showData title 116 problems solved
     "Medium" : 61
     "Easy" : 43
-    "Hard" : 15
+    "Hard" : 12
 ```
 <!-- stats:end -->
 
