@@ -168,6 +168,15 @@ pie showData title 116 problems solved
 ```
 <!-- stats:end -->
 
+<!-- lang-stats:start -->
+```mermaid
+%%{init: {"themeVariables": {"pie1": "#3776ab", "pie2": "#a8b9cc"}}}%%
+pie showData title 116 solutions by language
+    "Python" : 109
+    "C" : 7
+```
+<!-- lang-stats:end -->
+
 ## AI use disclaimer
 
 > [!IMPORTANT]
