@@ -18,10 +18,9 @@ def breakdown(expr: str) -> tuple[bool, list[str], bool]:
         if char == '{':
             depth += 1
             has_braces = True
-            if depth == 1:
-                if factor:
-                    factors.append(factor)
-                    factor = ""
+            if depth == 1 and factor:
+                factors.append(factor)
+                factor = ""
         # found a top-level comma: it is a list
         if char == ',' and depth == 0:
             is_list = True
@@ -78,4 +77,4 @@ def reduce_expression(expr: str) -> set[str]:
 class Solution:
     def braceExpansionII(self, expression: str) -> list[str]:
         terms = reduce_expression(expression)
-        return sorted(list(terms))
+        return sorted(terms)

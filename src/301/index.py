@@ -34,7 +34,7 @@ class Solution:
 
         indexes_copy = [index for index in index_stack]
         index_to_ignore = indexes_copy.pop()
-        ignore_set_copy = set(x for x in ignore_set)
+        ignore_set_copy = set(ignore_set)
         ignore_set_copy.add(index_to_ignore)
 
         # option 1, to change

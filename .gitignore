@@ -2,3 +2,16 @@ tmp.*
 __pycache__
 node_modules
 src/**/*.js.map
+
+AGENTS.md
+.claude
+.opencode
+opencode.json
+
+.vscode
+
+package.json
+package-lock.json
+tsconfig.json
+ruff.toml
+.scratch/

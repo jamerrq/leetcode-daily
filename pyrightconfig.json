@@ -1,0 +1,6 @@
+{
+    "include": ["src"],
+    "pythonVersion": "3.13",
+    "stubPath": "typings",
+    "typeCheckingMode": "basic"
+}

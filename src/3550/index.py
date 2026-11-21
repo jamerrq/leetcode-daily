@@ -1,5 +1,5 @@
 class Solution:
-    def smallestIndex(self, nums: List[int]) -> int:
+    def smallestIndex(self, nums: list[int]) -> int:
         def digits_sum(num):
             if num < 10:
                 return num

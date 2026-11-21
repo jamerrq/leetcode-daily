@@ -3,15 +3,12 @@ class Solution:
         n = len(arr)
         cum_sum = [0] * (n + 1)
         r_cum_sum = [0] * (n + 1)
-        #
         m, r_m = {}, {}
-        #
         for i in range(n):
             cum_sum[i+1] = cum_sum[i] + arr[i]
             m[cum_sum[i + 1]] = i
             r_cum_sum[-i-2] = r_cum_sum[-i-1] + arr[-i-1]
             r_m[r_cum_sum[-i-2]] = n - i - 1
-        #
         prefix = [float('inf')] * n
         suffix = [float('inf')] * n
         for i in range(n):
@@ -41,7 +38,6 @@ class Solution:
 
             prefix[i] = min(prefix[i], prefix[i - 1])
             suffix[-i-1] = min(suffix[-i-1], suffix[-i])
-        #
         ans = float('inf')
         for i in range(1, n - 1):
             pi = prefix[i]

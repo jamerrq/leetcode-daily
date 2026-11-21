@@ -71,9 +71,9 @@ expected = [
 ]
 s = Solution()
 for i, test in enumerate(tests):
-    result = s.hasValidPath(tests[i])
+    result = s.hasValidPath(test)
     try:
         assert result == expected[i]
         print(f"test #{i + 1} ok ✅")
-    except:
+    except AssertionError:
         print(f"test #{i + 1} failed: {result=}")

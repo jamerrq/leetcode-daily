@@ -1,9 +1,13 @@
-"""Fill the problem statement, examples and constraints of src/<id>/index.md from LeetCode.
+"""Fill the problem statement, examples and constraints of src/<id>/readme.md from LeetCode.
 
 Usage: python3 scripts/fill-statement.py <id> [<id> ...]
 
 Only touches files whose statement, Examples and Constraints are still empty
 (as left by the template); anything already filled in is skipped.
+
+When src/<id>/index.py is still empty it also writes LeetCode's Python3
+signature skeleton (the `class Solution:` and method lines), so the folder
+starts with the correct method name. A solution body is never written.
 """
 
 import json
@@ -159,39 +163,63 @@ def format_examples(text):
 
 
 def fetch(slug):
-    query = json.dumps({"query": 'query{question(titleSlug:"%s"){content}}' % slug})
+    query = json.dumps({"query": 'query{question(titleSlug:"%s"){content codeSnippets{lang code} metaData}}' % slug})
     response = subprocess.run(
         ["curl", "-s", "-A", "Mozilla/5.0", "-H", "Content-Type: application/json",
          "-H", "Referer: https://leetcode.com/", "https://leetcode.com/graphql", "-d", query],
         capture_output=True, text=True, check=True,
     )
-    return json.loads(response.stdout)["data"]["question"]["content"]
+    return json.loads(response.stdout)["data"]["question"]
+
+
+def python_skeleton(question):
+    """LeetCode's Python3 snippet, with typing generics lowered so it runs on this repo's Python."""
+    snippets = question.get("codeSnippets") or []
+    code = next((snippet["code"] for snippet in snippets if snippet["lang"] == "Python3"), "")
+    if not code.strip():
+        return ""
+    for name in ("List", "Dict", "Set", "Tuple", "FrozenSet"):
+        code = re.sub(rf"\b{name}\b", name.lower(), code)
+    return "\n".join(line.rstrip() for line in code.strip("\n").split("\n")).rstrip()
+
+
+def write_skeleton(problem_id, question):
+    path = ROOT / "src" / problem_id / "index.py"
+    if not path.exists() or path.read_text().strip():
+        return
+    skeleton = python_skeleton(question)
+    if skeleton:
+        path.write_text(skeleton + "\n")
+        print(f"{problem_id}: signature written to index.py")
 
 
 def fill(problem_id):
-    path = ROOT / "src" / problem_id / "index.md"
+    path = ROOT / "src" / problem_id / "readme.md"
     text = path.read_text()
+    question = fetch(re.search(r"problems/([^/]+)/", text).group(1))
+
     level = re.search(r"\*\*Level\*\*: .*\n", text)
     if EMPTY not in text or not text[level.end():].startswith("\n## Examples"):
-        print(f"{problem_id}: already has content, skipped")
-        return
+        print(f"{problem_id}: statement already has content, skipped")
+    else:
+        content = to_markdown(question["content"])
+        examples = re.search(r"\*\*\s*Example 1:?\s*\*\*", content)
+        constraints = re.search(r"\*\*Constraints:\*\*", content)
+        statement = content[:examples.start()].strip()
+        rules = content[constraints.end():].strip()
+        follow_up = ""
+        if match := re.search(r"\n\s*\*\*Follow[- ]up:?\*\*", rules):
+            follow_up = f"\n{rules[match.start():].strip()}\n"
+            rules = rules[:match.start()]
+        rules = "\n".join(line for line in rules.split("\n") if line.strip())
 
-    content = to_markdown(fetch(re.search(r"problems/([^/]+)/", text).group(1)))
-    examples = re.search(r"\*\*\s*Example 1:?\s*\*\*", content)
-    constraints = re.search(r"\*\*Constraints:\*\*", content)
-    statement = content[:examples.start()].strip()
-    rules = content[constraints.end():].strip()
-    follow_up = ""
-    if match := re.search(r"\n\s*\*\*Follow[- ]up:?\*\*", rules):
-        follow_up = f"\n{rules[match.start():].strip()}\n"
-        rules = rules[:match.start()]
-    rules = "\n".join(line for line in rules.split("\n") if line.strip())
+        text = text[:level.end()] + f"\n{statement}\n" + text[level.end():]
+        text = text.replace(EMPTY, f"\n\n## Examples\n\n{format_examples(content[examples.start():constraints.start()])}"
+                                   f"\n## Constraints\n\n{rules}\n{follow_up}\n## My Solution", 1)
+        path.write_text(text)
+        print(f"{problem_id}: statement filled")
 
-    text = text[:level.end()] + f"\n{statement}\n" + text[level.end():]
-    text = text.replace(EMPTY, f"\n\n## Examples\n\n{format_examples(content[examples.start():constraints.start()])}"
-                               f"\n## Constraints\n\n{rules}\n{follow_up}\n## My Solution", 1)
-    path.write_text(text)
-    print(f"{problem_id}: filled")
+    write_skeleton(problem_id, question)
 
 
 for problem_id in sys.argv[1:]:

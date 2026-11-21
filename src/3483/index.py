@@ -6,12 +6,10 @@ class Solution:
             first = digits[i]
             if not first:
                 continue
-            #
             for j in range(n):
                 if j == i:
                     continue
                 second = digits[j]
-                #
                 for k in range(n):
                     if k == j or k == i:
                         continue

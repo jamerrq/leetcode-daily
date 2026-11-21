@@ -1,9 +1,8 @@
 class Solution:
-    def resultArray(self, nums: List[int], k: int) -> List[int]:
+    def resultArray(self, nums: list[int], k: int) -> list[int]:
         n = len(nums)
         P = [0] * k
         ans = [x for x in P]
-        #
         for i in range(n):
             T = [0] * k
             if nums[i] % k == 0:

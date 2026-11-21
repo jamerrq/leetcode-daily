@@ -8,12 +8,10 @@ class Solution:
             if index is None:
                 start[char] = i
             end[char] = i
-        #
         intervals = []
         for key in keys:
             key_start = start[key]
             key_end = end[key]
-            #
             i = key_start + 1
             j = key_end
             while i < j:

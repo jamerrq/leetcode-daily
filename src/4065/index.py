@@ -7,7 +7,6 @@ class Solution:
             freq[num] = freq[num] + 1
             max_freq = max(max_freq, freq[num])
             unique.add(num)
-        #
         ans = []
         unique_list = list(unique)
         unique_list.sort()
